@@ -1,4 +1,4 @@
-// ****this action creator file is RESPONSIBLE FOR MAKING API REQUESTS*****
+// ****this action creator file is RESPONSIBLE FOR MAKING API REQUESTS (want to call it whenever user submits search bar form*****
 
 import axios from 'axios';
 

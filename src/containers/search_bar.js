@@ -1,11 +1,24 @@
+// *** NOTES ON CONNECTING A COMPONENT TO REDUX***
+
 import React, { Component } from 'react';
+// 1@@. need to connect component to redux... 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+// 2@@. need to hook up imported actionCreator to this component (how? by defining mapDispatchToProps)
+import { fetchWeather } from '../actions/index';
 
-// want to make input a "controlled field" - form element where value of input is set by state of component (and not the other way around)
-  // HOW? -> set state whenever our input is changed (update state using a change handler on the input)
-    // 1. assign value so value is originated from this.state
-    // 2. add onChange event handler: whenever on change -> run function
+/*
+A) want to make input a "controlled field" - form element where value of input is set by state of component (and not the other way around)
+  HOW? -> set state whenever our input is changed (update state using a change handler on the input)
+    1. assign value so value is originated from this.state
+    2. add onChange event handler: whenever on change -> run function
+B) want to make this component a CONTAINER - need to hook it up to redux cuz running a search is going to call a redux action-creator
+  1@@. need to connect our searchbar container to redux using CONNECT from 'react-redux' 
+  2@@. need to bind actioncreator fetchWeather as a PROPerty to this container
+*/
 
-export default class SearchBar extends Component {
+// make sure not to export at this point
+class SearchBar extends Component {
   // to set state up, initialize inside of our constructor... 
   constructor(props) {
     super(props);
@@ -16,6 +29,7 @@ export default class SearchBar extends Component {
     // searchbar (this) has a func called onInputChange -> bind that func to this and then replace it w/ bound instance of the func
     this.onInputChange = this.onInputChange.bind(this);
     // ^ necessary cuz we're passing a callback that has a reference to 'this'
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onInputChange(event) {
@@ -28,8 +42,13 @@ export default class SearchBar extends Component {
   onFormSubmit(event) {
     // don't submit the form
     event.preventDefault();
-
+    
     // we need to go and fetch weather data
+    this.props.fetchWeather(this.state.term);
+    // ^ ***this is only possible cuz of connect + bindActionCreators + mapDispatchToProps below 
+
+    // clear out search input after search
+    this.setState({ term: '' });
   }
 
   render() {
@@ -48,3 +67,12 @@ export default class SearchBar extends Component {
     )
   }
 }
+
+// ***bind actionCreator, fetchWeather, to dispatch, and then map it to props -> gives this component access to 'this.props.fetchWeather'
+function mapDispatchToProps(dispatch) {
+  // causes the actionCreator, whenever called, to flow down into the middleware and reducers inside of redux app 
+  return bindActionCreators({ fetchWeather }, dispatch);
+}
+
+// mapDispatchToProps needs to be the 2nd argument (this component doesn't care about state?)
+export default connect(null, mapDispatchToProps)(SearchBar);
