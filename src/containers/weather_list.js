@@ -2,9 +2,18 @@
   // since it's a container -> need to hook it up to redux and subscribe to store so can pull in weather data
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 
 class WeatherList extends Component {
+  renderWeather(cityData) {
+    // this is being called on the array.map
+    const name = cityData.city.name
+    return (
+      <tr key={name}>
+        <td>{name}</td>
+      </tr>
+    )
+  }
+
   render() {
     return (
       <table className="table table-hover">
@@ -18,7 +27,7 @@ class WeatherList extends Component {
         </thead>
 
         <tbody>
-        
+          {this.props.weather.map(this.renderWeather)}
         </tbody>
       </table>
     );
@@ -30,10 +39,12 @@ class WeatherList extends Component {
 //   return 
 // }
 
-// Mapping state to props - > return an object
-  // key -> name of the slice of the reducer where we're pulling state from (check the rootreducer's key)
+// Mapping state to props gives us access to 'this.props.weather' inside of this container...
+  // key of object returned -> name of the slice of the reducer where we're pulling state from (check the rootreducer's key)
 const mapStateToProps = ({ weather }) => {
   // why 'weather' key? -> check reducers/index.js -> rootReducer binds weather reducer to the 'weather' key
+  // weather property is going to be an array of city-objects -> want to map over that array in the above table
+    // https://www.udemy.com/react-redux/learn/v4/t/lecture/4284608 @ 1:45
   return {
     weather
   };
