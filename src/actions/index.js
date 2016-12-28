@@ -10,6 +10,7 @@ const ROOT_URL = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KE
 
 // constant used for action type (this is to maintain consistency b/w reducer and actions)
 export const FETCH_WEATHER = 'FETCH_WEATHER';
+// ^ will be imported in reducer
 
 
 // action creator is responsible for making api/ajax request to fetch our weather data (this action is asynchranous in nature, but middleware helps clean that up)
