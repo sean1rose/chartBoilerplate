@@ -1,7 +1,6 @@
 // this slice of the reducer -> make sure it's imported in main index.js root-reducer
 
 import { FETCH_WEATHER } from '../actions/index';
-
 // what is our initial data structure gonna be? user can query for any city. And we're gonna show multiple rows of graphs
   // so we'll prob want to store in an array -> make default state
 export default function(state = [], action) {
