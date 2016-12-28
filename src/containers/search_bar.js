@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // 1@@. need to connect component to redux... 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// 2@@. need to hook up imported actionCreator to this component (how? by defining mapDispatchToProps)
+// 2@@. need to hook up imported actionCreator to this searchbar component (how? by defining mapDispatchToProps)
 import { fetchWeather } from '../actions/index';
 
 /*
@@ -33,7 +33,6 @@ class SearchBar extends Component {
   }
 
   onInputChange(event) {
-    console.log(event.target.value);
     this.setState({
       term: event.target.value
     })
@@ -43,9 +42,9 @@ class SearchBar extends Component {
     // don't submit the form
     event.preventDefault();
     
-    // we need to go and fetch weather data
+    // we need to go and fetch weather data (pass in city to search weather api)
     this.props.fetchWeather(this.state.term);
-    // ^ ***this is only possible cuz of connect + bindActionCreators + mapDispatchToProps below 
+    // ^ ***this is only possible cuz of 2 step process (connect + bindActionCreators + mapDispatchToProps below)
 
     // clear out search input after search
     this.setState({ term: '' });
@@ -55,7 +54,7 @@ class SearchBar extends Component {
     return (
       <form onSubmit={this.onFormSubmit} className="input-group">
         <input 
-          placeholder="Get a five-day forecast for your favorite cities"
+          placeholder="Get a five-day forecast for your favorite cities..."
           className="form-control"
           value={this.state.term}
           onChange={this.onInputChange}
@@ -68,11 +67,12 @@ class SearchBar extends Component {
   }
 }
 
-// ***bind actionCreator, fetchWeather, to dispatch, and then map it to props -> gives this component access to 'this.props.fetchWeather'
+// ***bind actionCreator (fetchWeather) to dispatch, and then map it to props -> gives this component access to 'this.props.fetchWeather'
 function mapDispatchToProps(dispatch) {
   // causes the actionCreator, whenever called, to flow down into the middleware and reducers inside of redux app 
   return bindActionCreators({ fetchWeather }, dispatch);
 }
 
-// mapDispatchToProps needs to be the 2nd argument (this component doesn't care about state?)
+// use null mapDispatchToProps needs to be the 2nd argument (this component doesn't care about state)
 export default connect(null, mapDispatchToProps)(SearchBar);
+// this gives component access to the action creator
