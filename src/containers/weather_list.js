@@ -11,16 +11,18 @@ class WeatherList extends Component {
   renderWeather(cityData) {
     // this is being called on the array.map
     const name = cityData.city.name;
+    // ***NOTE: spark charts needs data to be an array!***
     const temps = cityData.list.map(weather => weather.main.temp);
-    console.log('temps - ', temps);
+    const pressures = cityData.list.map(weather => weather.main.pressure);
+    const humidities = cityData.list.map(weather => weather.main.humidity);
 
 
     return (
       <tr key={name}>
         <td>{name}</td>
-        <td>
-          <Chart data={temps} color="red" />
-        </td>
+        <td><Chart data={temps} color="red" /></td>
+        <td><Chart data={pressures} color="blue" /></td>
+        <td><Chart data={humidities} color="green" /></td>
       </tr>
     )
   }
