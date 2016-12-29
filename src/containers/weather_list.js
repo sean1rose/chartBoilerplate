@@ -1,15 +1,28 @@
+// This is where we will be rendering our TABLE OF CHARTS (using react-sparklines)
+
 // WHY A CONTAINER? cuz this is rendering a list of cities - it needs access to redux state...
   // since it's a container -> need to hook it up to redux and subscribe to store so can pull in weather data
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Sparklines, SparklinesLine } from 'react-sparklines';
 
 class WeatherList extends Component {
+  // for rendering a single city/row
   renderWeather(cityData) {
     // this is being called on the array.map
-    const name = cityData.city.name
+    const name = cityData.city.name;
+    const temps = cityData.list.map(weather => weather.main.temp);
+    console.log('temps - ', temps);
+
+
     return (
       <tr key={name}>
         <td>{name}</td>
+        <td>
+          <Sparklines height={120} width={180} data={temps} >
+            <SparklinesLine color="red" />
+          </Sparklines>
+        </td>
       </tr>
     )
   }
