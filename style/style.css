@@ -1,0 +1,16 @@
+.input-group {
+  margin: 20px 0px;
+}
+
+td, th {
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+.secondColumn {
+  padding-top: 25px !important;
+}
+
+.thirdColumn {
+  padding: 25px 0px 0px 0px !important;
+}

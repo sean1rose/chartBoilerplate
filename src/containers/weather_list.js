@@ -22,8 +22,8 @@ class WeatherList extends Component {
       <tr key={name}>
         <td>{name}</td>
         <td><Chart data={temps} color="red" units="F" /></td>
-        <td><Chart data={pressures} color="blue" units="hPa" /></td>
-        <td><Chart data={humidities} color="green" units="%" /></td>
+        <td className="secondColumn"><Chart data={pressures} color="blue" units="hPa" /></td>
+        <td className="thirdColumn"><Chart data={humidities} color="green" units="%" /></td>
       </tr>
     )
   }
